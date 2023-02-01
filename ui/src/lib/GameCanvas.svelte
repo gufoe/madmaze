@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { Api, Schema } from "onpage-js";
   import { boundingBox, Game, getRatio, MAPS } from "../../lib/game";
   import Circle from "./Graphics/Circle.svelte";
   import Rect from "./Graphics/Rect.svelte";
@@ -31,22 +32,50 @@
       }, 100);
     }
     if (game.pl.status == "victory" && !int) {
-      int = setTimeout(() => {
-        int = undefined;
-        alert(
-          "Hai vinto!\n" +
-            ((game.pl.end - game.pl.start) / 1000).toFixed(2) +
-            " secondi"
-        );
+      int = setTimeout(async () => {
+        const ms = game.pl.end - game.pl.start;
+
+        localStorage.username =
+          prompt(
+            "Hai vinto!\n" +
+              (ms / 1000).toFixed(2) +
+              " secondi\nCome vuoi essere ricordato?",
+            localStorage.username ?? ""
+          ) ?? "";
+        if (localStorage.username) {
+          const s = await schema();
+          s.resource("hall_of_fame")
+            .writer()
+            .createThing()
+            .set("name", localStorage.username)
+            .set("time", ms)
+            .save();
+        }
+
         game.initGame();
+        int = undefined;
       }, 100);
     }
   }, 1000 / 30);
-  const handleRestart = () => {
-    show_restart = false;
-    int = undefined;
-    game.initGame();
+
+  let __schema: Schema;
+  const schema = async () => {
+    if (__schema) return __schema;
+    const api = new Api("app", "bl2LG1fH7HGZLwiD");
+    return (__schema = await api.loadSchema());
   };
+
+  async function showHallOfFame() {
+    const ppl = await (await schema())
+      .query("hall_of_fame")
+      .orderBy("time")
+      .get();
+    const message = ppl.map(
+      (p) => `${p.val("name")}: ${(p.val<number>("time") / 1000).toFixed(2)}s`
+    );
+    message.unshift("Hall of fame:");
+    alert(message.join("\n"));
+  }
 </script>
 
 <div class="relative flex flex-col flex-grow">
@@ -98,9 +127,9 @@
       </div>
     </div>
   </div>
-  <div class="h-20 py-3 flex flex-col items-center">
+  <div class="h-18 py-3 flex flex-col items-center">
     {#if ["alive", "idle"].includes(game.pl.status)}
-      <div class="buttons flex flex-row gap-1">
+      <div class="buttons flex flex-row gap-1 items-center">
         <button
           on:mousedown={() => (game.pl.movex = +1)}
           on:touchstart={() => (game.pl.movex = +1)}
@@ -133,7 +162,8 @@
         >
           ↓
         </button>
+        <button class="ml-2" on:click={() => showHallOfFame()}> 🏆 </button>
       </div>
-    {:else if show_restart}{/if}
+    {/if}
   </div>
 </div>
