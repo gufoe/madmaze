@@ -9,4 +9,24 @@ body,
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
+  color: #fff;
+}
+
+button {
+  font-size: 3rem;
+  background-color: #000;
+  border: 3px solid #fff;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  transform: all 100ms;
+}
+button:active {
+  background-color: #fff;
+  color: #000;
+}
+
+* {
+  font-family: monospace;
+  user-select: none;
 }
