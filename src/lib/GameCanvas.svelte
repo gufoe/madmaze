@@ -84,7 +84,7 @@
       class="relative flex overflow-hidden m-auto"
       style="width:{map_size?.w * scale}px; height:{map_size?.h * scale}px"
     >
-      <div style="scale:{scale}" class="absolute bg-green">
+      <div style="scale:{scale}" class="absolute bg-green text-md">
         {#each game.map.tiles as rect}
           <Rect
             shape={Object.assign(
@@ -131,6 +131,7 @@
     {#if ["alive", "idle"].includes(game.pl.status)}
       <div class="buttons flex flex-row gap-1 items-center">
         <button
+          class="text-6xl"
           on:mousedown={() => (game.pl.movex = +1)}
           on:touchstart={() => (game.pl.movex = +1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -139,6 +140,7 @@
           →
         </button>
         <button
+          class="text-6xl"
           on:mousedown={() => (game.pl.movex = -1)}
           on:touchstart={() => (game.pl.movex = -1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -147,6 +149,7 @@
           ←
         </button>
         <button
+          class="text-6xl"
           on:mousedown={() => (game.pl.movey = +1)}
           on:touchstart={() => (game.pl.movey = +1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -155,6 +158,7 @@
           ↑
         </button>
         <button
+          class="text-6xl"
           on:mousedown={() => (game.pl.movey = -1)}
           on:touchstart={() => (game.pl.movey = -1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -162,7 +166,9 @@
         >
           ↓
         </button>
-        <button class="ml-2" on:click={() => showHallOfFame()}> 🏆 </button>
+        <div class="text-6xl ml-2" on:mousedown={() => showHallOfFame()}>
+          🏆
+        </div>
       </div>
     {/if}
   </div>
