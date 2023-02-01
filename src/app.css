@@ -22,7 +22,7 @@ button {
   border: 3px solid #fff;
   color: #fff;
   border-radius: 3px;
-  padding: 0.3rem 1rem;
+  padding: 0.7rem .7rem;
   transform: all 100ms;
 }
 button:active {
@@ -31,6 +31,6 @@ button:active {
 }
 
 * {
-  font-family: monospace;
+  font-family: inter;
   user-select: none;
 }

@@ -131,7 +131,7 @@
     {#if ["alive", "idle"].includes(game.pl.status)}
       <div class="buttons flex flex-row gap-1 items-center">
         <button
-          class="text-6xl"
+          class="text-3xl"
           on:mousedown={() => (game.pl.movex = +1)}
           on:touchstart={() => (game.pl.movex = +1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -140,7 +140,7 @@
           →
         </button>
         <button
-          class="text-6xl"
+          class="text-3xl"
           on:mousedown={() => (game.pl.movex = -1)}
           on:touchstart={() => (game.pl.movex = -1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -149,7 +149,7 @@
           ←
         </button>
         <button
-          class="text-6xl"
+          class="text-3xl"
           on:mousedown={() => (game.pl.movey = +1)}
           on:touchstart={() => (game.pl.movey = +1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -158,7 +158,7 @@
           ↑
         </button>
         <button
-          class="text-6xl"
+          class="text-3xl"
           on:mousedown={() => (game.pl.movey = -1)}
           on:touchstart={() => (game.pl.movey = -1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -166,7 +166,7 @@
         >
           ↓
         </button>
-        <div class="text-6xl ml-2" on:mousedown={() => showHallOfFame()}>
+        <div class="text-3xl ml-2" on:mousedown={() => showHallOfFame()}>
           🏆
         </div>
       </div>
