@@ -8,7 +8,12 @@
   let canvas: Element;
   let game: Game = new Game(MAPS.DEFAULT);
   let scale = 1;
-  let map_size;
+  let map_size: { w: number; h: number };
+  const frasi_scarse = {
+    m: "Che scarso!",
+    f: "Che scarsa!",
+    x: "Che scarsƏ!",
+  };
   onMount(() => {
     scale = getRatio(
       {
@@ -19,14 +24,18 @@
     );
     map_size = boundingBox(game.map.tiles);
   });
-  let show_restart = false;
   let int: NodeJS.Timeout;
   setInterval(() => {
     game = game.update();
     if (game.pl.status == "dead" && !int) {
       int = setTimeout(() => {
         int = undefined;
-        alert("Che scarso!");
+        while (!["m", "f", "x"].includes(localStorage.maschio_o_femmina)) {
+          localStorage.maschio_o_femmina = prompt(
+            "Aspetta un attimo, tu cosa sei?\n(scrivi m per maschio, f per femmina, x per altro)"
+          );
+        }
+        alert(frasi_scarse[localStorage.maschio_o_femmina]);
         game.initGame();
         // show_restart = true;
       }, 100);
