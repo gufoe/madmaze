@@ -18,5 +18,7 @@ jobs:
       - name: Push to dokku
         uses: dokku/github-action@master
         with:
-          git_remote_url: "ssh://dokku@gufoe.it/maze"
+          git_remote_url: "git@github.com:dokku/github-action.git"
+          app-name: 'maze'
+          dokku-host: 'gufoe.it'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
