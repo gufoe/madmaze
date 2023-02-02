@@ -57,6 +57,7 @@
             .writer()
             .createThing()
             .set("name", localStorage.username)
+            .set("device_id", localStorage.device_id)
             .set("time", ms)
             .save();
         }
@@ -80,14 +81,39 @@
       .orderBy("time")
       .get();
     const message = ppl.map(
-      (p) => `${p.val("name")}: ${(p.val<number>("time") / 1000).toFixed(2)}s`
+      (p) => `${(p.val<number>("time") / 1000).toFixed(2)}s - ${p.val("name")}`
     );
     message.unshift("Hall of fame:");
     alert(message.join("\n"));
   }
+
+  function handleKeyUpDown(e: KeyboardEvent) {
+    if (["w", "ArrowUp"].includes(e.key)) {
+      game.pl.movey = e.type == "keyup" ? 0 : 1;
+    }
+    if (["s", "ArrowDown"].includes(e.key)) {
+      game.pl.movey = e.type == "keyup" ? 0 : -1;
+    }
+    if (["a", "ArrowLeft"].includes(e.key)) {
+      game.pl.movex = e.type == "keyup" ? 0 : -1;
+    }
+    if (["d", "ArrowRight"].includes(e.key)) {
+      game.pl.movex = e.type == "keyup" ? 0 : 1;
+    }
+    console.log(e.type);
+  }
+  if (!localStorage.device_id) {
+    localStorage.device_id = new Date().getTime();
+  }
 </script>
 
-<div class="relative flex flex-col flex-grow">
+<div
+  class="relative flex flex-col flex-grow"
+  tabindex="-1"
+  autofocus
+  on:keydown={handleKeyUpDown}
+  on:keyup={handleKeyUpDown}
+>
   <div bind:this={canvas} class="flex flex-col grow">
     <div
       class="relative flex overflow-hidden m-auto"
@@ -141,15 +167,6 @@
       <div class="buttons flex flex-row gap-1 items-center">
         <button
           class="text-3xl"
-          on:mousedown={() => (game.pl.movex = +1)}
-          on:touchstart={() => (game.pl.movex = +1)}
-          on:mouseup={() => (game.pl.movex = 0)}
-          on:touchend={() => (game.pl.movex = 0)}
-        >
-          →
-        </button>
-        <button
-          class="text-3xl"
           on:mousedown={() => (game.pl.movex = -1)}
           on:touchstart={() => (game.pl.movex = -1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -159,12 +176,12 @@
         </button>
         <button
           class="text-3xl"
-          on:mousedown={() => (game.pl.movey = +1)}
-          on:touchstart={() => (game.pl.movey = +1)}
-          on:mouseup={() => (game.pl.movey = 0)}
-          on:touchend={() => (game.pl.movey = 0)}
+          on:mousedown={() => (game.pl.movex = +1)}
+          on:touchstart={() => (game.pl.movex = +1)}
+          on:mouseup={() => (game.pl.movex = 0)}
+          on:touchend={() => (game.pl.movex = 0)}
         >
-          ↑
+          →
         </button>
         <button
           class="text-3xl"
@@ -174,6 +191,15 @@
           on:touchend={() => (game.pl.movey = 0)}
         >
           ↓
+        </button>
+        <button
+          class="text-3xl"
+          on:mousedown={() => (game.pl.movey = +1)}
+          on:touchstart={() => (game.pl.movey = +1)}
+          on:mouseup={() => (game.pl.movey = 0)}
+          on:touchend={() => (game.pl.movey = 0)}
+        >
+          ↑
         </button>
         <div class="text-3xl ml-2" on:mousedown={() => showHallOfFame()}>
           🏆

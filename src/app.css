@@ -14,19 +14,20 @@ body,
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
-  color: #0ff;
+  color: #eee;
 }
 
 button {
   background-color: #000;
-  border: 3px solid #0ff;
-  color: #0ff;
+  border: 3px solid #eee;
+  color: #eee;
   border-radius: 3px;
-  padding: 0.7rem .7rem;
+  padding: 0.7rem 0.7rem;
   transform: all 100ms;
 }
 button:active {
-  background-color: #0ff;
+  background-color: #fff;
+  border-color: #fff;
   color: #000;
 }
 
