@@ -4,4 +4,4 @@ RUN yarn
 COPY . .
 RUN yarn build
 EXPOSE 4173
-ENTRYPOINT ["yarn", "preview"]
+ENTRYPOINT ["yarn", "preview", "--host", "0.0.0.0"]
