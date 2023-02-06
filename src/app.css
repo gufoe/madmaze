@@ -31,7 +31,7 @@ button:active {
   color: #000;
 }
 
-* {
+*, button {
   font-family: inter;
-  user-select: none;
+  user-select: none!important;
 }
