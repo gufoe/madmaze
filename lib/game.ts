@@ -31,6 +31,8 @@ export type Player = {
 
 export interface GameRect extends Rect {
   victory?: boolean;
+  checkpoint?: boolean;
+  touched?: boolean;
 }
 
 export interface GameMap {
@@ -58,8 +60,15 @@ export class Game {
       this.pl.y -= this.pl.movey * this.pl.speed;
       const int = this.getCollisions();
       if (int.find((x) => x.victory)) {
-        this.pl.status = "victory";
-        this.pl.end = new Date().getTime();
+        if (!this.map.tiles.find((x) => x.checkpoint && !x.touched)) {
+          this.pl.status = "victory";
+          this.pl.end = new Date().getTime();
+        } else {
+          console.log("tocca tutti i checkpoint prima di continuare");
+        }
+      } else if (int.find((x) => x.checkpoint)) {
+        let checkpoint = int.find((x) => x.checkpoint);
+        checkpoint.touched = true;
       } else if (int.find((x) => !x.victory)) {
         this.pl.status = "dead";
         this.pl.end = new Date().getTime();

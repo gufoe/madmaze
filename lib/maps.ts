@@ -1,6 +1,7 @@
-import type { GameMap } from "./game";
+import type { GameMap, Player } from "./game";
 
 export const MAPS: { [key: string]: GameMap } = {
+  "level/test": genmap(),
   "level/2": {
     pl: {
       x: 70,
@@ -49,7 +50,7 @@ export const MAPS: { [key: string]: GameMap } = {
       // { x: 350, y: 20, w: 50, h: 50, victory: true },
     ],
   },
-  'level/3': {
+  "level/3": {
     pl: {
       x: 30,
       y: 27.5,
@@ -138,3 +139,55 @@ export const MAPS: { [key: string]: GameMap } = {
     ],
   },
 };
+
+function genmap(): GameMap {
+  const mheight = 100;
+  const mwidth = 100;
+  let rectu = 1;
+
+  let unit = 22;
+
+  const min_player_factor = 0.38 * 0.5; // r = d/2
+  const player_radius = unit * min_player_factor;
+
+  const pl: Player = {
+    x: player_radius * 2,
+    y: mheight - player_radius,
+    r: player_radius,
+    movex: 0,
+    movey: 0,
+    status: "idle",
+    speed: 1,
+  };
+
+  const tiles = [
+    { x: 0, y: 0, w: mwidth, h: rectu },
+    { x: unit, y: unit, w: mwidth - 1 * unit, h: rectu },
+    { x: 0, y: 2 * unit, w: mwidth - 1 * unit, h: rectu },
+    { x: unit, y: 3 * unit, w: mwidth - 1 * unit, h: rectu },
+    { x: 0, y: 4 * unit, w: mwidth - 1 * unit, h: rectu },
+
+    { x: mwidth - rectu, y: 0, w: rectu, h: mheight },
+    { x: 0, y: 0, w: rectu, h: mheight },
+    { x: 0, y: 0, w: rectu, h: mheight },
+    {
+      x: mwidth - player_radius,
+      y: mheight - player_radius,
+      w: rectu * 4,
+      h: rectu * 4,
+      victory: true,
+    },
+    {
+      x: mwidth / 2,
+      y: mheight / 2,
+      w: rectu * 4,
+      h: rectu * 4,
+      checkpoint: true,
+      touched: false,
+    },
+  ];
+  return {
+    pl: pl,
+    tiles: tiles,
+  };
+}
