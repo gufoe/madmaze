@@ -63,6 +63,17 @@ export class Game {
       } else if (int.find((x) => !x.victory)) {
         this.pl.status = "dead";
         this.pl.end = new Date().getTime();
+      } else {
+        let out = false;
+        if (this.pl.x - this.pl.r < 0) out = true;
+        if (this.pl.y - this.pl.r < 0) out = true;
+        const bb = boundingBox(this.map.tiles);
+        if (this.pl.x + this.pl.r > bb.w) out = true;
+        if (this.pl.y + this.pl.r > bb.h) out = true;
+        if (out) {
+          this.pl.status = "dead";
+          this.pl.end = new Date().getTime();
+        }
       }
     }
     return this;
