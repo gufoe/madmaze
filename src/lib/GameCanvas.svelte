@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { Api, Schema } from "onpage-js";
-  import { boundingBox, Game, getRatio, MAPS } from "../../lib/game";
+  import { boundingBox, Game, getRatio } from "../../lib/game";
   import Circle from "./Graphics/Circle.svelte";
   import Rect from "./Graphics/Rect.svelte";
   import Text from "./Graphics/Text.svelte";
+  import { MAPS } from "../../lib/maps";
   let canvas: Element;
-  let game: Game = new Game(MAPS.DEFAULT);
+  let game: Game = new Game(MAPS[location.hash?.substring(1) || "DEFAULT"]);
   let scale = 1;
   let map_size: { w: number; h: number };
   const frasi_scarse = {
