@@ -2,6 +2,7 @@ import type { GameMap } from "./game";
 
 export const MAPS: { [key: string]: GameMap } = {
   "level/2": {
+    key: "level/2",
     pl: {
       x: 70,
       y: 27.5,
@@ -49,10 +50,11 @@ export const MAPS: { [key: string]: GameMap } = {
       // { x: 350, y: 20, w: 50, h: 50, victory: true },
     ],
   },
-  'level/3': {
+  "level/3": {
+    key: "level/3",
     pl: {
       x: 30,
-      y: 27.5,
+      y: 80,
       r: 12,
       movex: 0,
       movey: 0,
@@ -62,13 +64,14 @@ export const MAPS: { [key: string]: GameMap } = {
     tiles: [
       { x: 0, y: 0, w: 100, h: 10 },
       { x: 0, y: 150 - 10, w: 100, h: 10 },
-      { x: 0, y: 0, w: 10, h: 100 },
-      { x: 100 - 10, y: 0, w: 10, h: 100 },
+      { x: 80, y: 50, w: 10, h: 50 },
+      { x: 120, y: 40, w: 10, h: 50, victory: true },
+      //   { x: 100 - 10, y: 0, w: 10, h: 100 },
 
-      { x: 0, y: 0, w: 100, h: 10 },
-      { x: 0, y: 90, w: 100, h: 10 },
-      { x: 50, y: 45, w: 50, h: 10 },
-      { x: 80, y: 60, w: 20, h: 20, victory: true },
+      //   { x: 0, y: 0, w: 100, h: 10 },
+      //   { x: 0, y: 90, w: 100, h: 10 },
+      //   { x: 50, y: 45, w: 50, h: 10 },
+      //   { x: 80, y: 60, w: 20, h: 20, victory: true },
       // { x: 0, y: 667 - 10, w: 375, h: 10 },
       // { x: 0, y: 0, w: 10, h: 667 },
       // { x: 375 - 10, y: 0, w: 10, h: 667 },
@@ -98,6 +101,7 @@ export const MAPS: { [key: string]: GameMap } = {
     ],
   },
   DEFAULT: {
+    key: "origin",
     pl: {
       x: 140,
       y: 470,
