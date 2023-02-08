@@ -185,6 +185,14 @@ function genmap(): GameMap {
       checkpoint: true,
       touched: false,
     },
+    {
+      x: mwidth / 2,
+      y: player_radius,
+      w: rectu * 4,
+      h: rectu * 4,
+      checkpoint: true,
+      touched: false,
+    },
   ];
   return {
     pl: pl,

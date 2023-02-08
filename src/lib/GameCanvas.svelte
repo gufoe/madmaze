@@ -1,15 +1,28 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { Api, Schema } from "onpage-js";
-  import { boundingBox, Game, getRatio } from "../../lib/game";
+  import { onMount } from "svelte";
+  import { boundingBox, Game, getRatio, type GameRect } from "../../lib/game";
+  import { MAPS } from "../../lib/maps";
   import Circle from "./Graphics/Circle.svelte";
   import Rect from "./Graphics/Rect.svelte";
   import Text from "./Graphics/Text.svelte";
-  import { MAPS } from "../../lib/maps";
   let canvas: Element;
   let game: Game = new Game(MAPS[location.hash?.substring(1) || "DEFAULT"]);
+  document.title = game.map.title;
   let scale = 1;
   let map_size: { w: number; h: number };
+
+  const getRectColor = (rect: GameRect) => {
+    if (rect.victory) {
+      if (game.map.tiles.find((x) => x.checkpoint && !x.touched)) return "#fff";
+      else return "#0ff";
+    }
+    if (rect.checkpoint) {
+      if (rect.touched) return "#ffa";
+      else return "#f0f";
+    }
+    return "#f00";
+  };
   const frasi_scarse = {
     m: "Che scarso!",
     f: "Che scarsa!",
@@ -125,7 +138,7 @@
           <Rect
             shape={Object.assign(
               {
-                color: rect.victory ? "#0ff" : "#f00",
+                color: getRectColor(rect),
               },
               rect
             )}
