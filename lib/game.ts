@@ -36,6 +36,7 @@ export interface GameRect extends Rect {
 }
 
 export interface GameMap {
+  key: string;
   pl: Player;
   tiles: GameRect[];
 }

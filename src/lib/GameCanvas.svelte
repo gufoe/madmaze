@@ -72,6 +72,7 @@
             .createThing()
             .set("name", localStorage.username)
             .set("device_id", localStorage.device_id)
+            .set("level", game.map.key)
             .set("time", ms)
             .save();
         }
@@ -89,9 +90,10 @@
     return (__schema = await api.loadSchema());
   };
 
-  async function showHallOfFame() {
+  async function showHallOfFame(level: string) {
     const ppl = await (await schema())
       .query("hall_of_fame")
+      .where("level", level)
       .orderBy("time")
       .get();
     const message = ppl.map(
@@ -121,6 +123,7 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <div
   class="relative flex flex-col flex-grow"
   tabindex="-1"
@@ -215,7 +218,10 @@
         >
           ↓
         </button>
-        <div class="text-3xl ml-2" on:mousedown={() => showHallOfFame()}>
+        <div
+          class="text-3xl ml-2"
+          on:mousedown={() => showHallOfFame(game.map.key)}
+        >
           🏆
         </div>
       </div>
