@@ -8,7 +8,7 @@
   import Text from "./Graphics/Text.svelte";
   let canvas: Element;
   let game: Game = new Game(MAPS[location.hash?.substring(1) || "DEFAULT"]);
-  document.title = game.map.title;
+  document.title = game.map.key;
   let scale = 1;
   let map_size: { w: number; h: number };
 
