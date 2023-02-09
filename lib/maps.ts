@@ -136,7 +136,6 @@ export const MAPS: { [key: string]: GameMap } = {
       { x: 170, y: 480, w: 10, h: 20 },
       { x: 250, y: 400, w: 10, h: 40 },
       { x: 100, y: 500, w: 160, h: 10 },
-      { x: 100, y: 500, w: 160, h: 10 },
 
       { x: 350, y: 20, w: 50, h: 50, victory: true },
     ],
@@ -150,8 +149,8 @@ export const MAPS: { [key: string]: GameMap } = {
       r: 20,
       vx: 0,
       vy: 0,
-      acc: 1,
-      friction: 0.2,
+      acc: 1.3,
+      friction: 0.3,
       movex: 0,
       movey: 0,
       status: "idle",
@@ -170,38 +169,56 @@ export const MAPS: { [key: string]: GameMap } = {
       { x: 300, y: 70, w: 10, h: 15 },
       { x: 70, y: 80, w: 300, h: 10 },
       { x: 0, y: 130, w: 30, h: 10 },
-      { x: 70, y: 180, w: 30, h: 10 },
+      {
+        x: 70,
+        y: 180,
+        w: 30,
+        h: 10,
+        on_tick(tick, tile) {
+          tile.x = 70 + Math.sin(tick / 14) * 10;
+        },
+      },
       { x: 80, y: 90, w: 10, h: 100 },
-      { x: 146, y: 137, w: 120, h: 30 },
+      // Big square
+      {
+        x: 146,
+        y: 147,
+        w: 120,
+        h: 30,
+        on_tick(tick, tile) {
+          tile.y = 147 + Math.sin(10 + tick / 16) * 30;
+        },
+      },
       { x: 0, y: 240, w: 300, h: 10 },
-      { x: 100, y: 300, w: 100, h: 10 },
+      { x: 100, y: 300, w: 200, h: 10 },
       { x: 300, y: 150, w: 10, h: 200 },
       {
         x: 200,
-        y: 300,
-        w: 10,
-        h: 60,
-        // victory: true,
-        on_tick(tick, tile) {
-          tile.y = 290 + Math.sin(tick / 10) * 30;
-        },
-      },
-      {
-        x: 200,
-        y: 300,
+        y: 350,
         w: 10,
         h: 10,
         checkpoint: true,
-        // victory: true,
+      },
+      {
+        x: 200,
+        y: 270,
+        w: 10,
+        h: 10,
+        checkpoint: true,
+      },
+      {
+        x: 200,
+        y: 275,
+        w: 10,
+        h: 100,
         on_tick(tick, tile) {
-          tile.y = 315 - Math.sin(tick / 10) * 50;
+          tile.y = 275 + Math.sin(tick / 8) * 80;
         },
       },
       { x: 100, y: 400, w: 270, h: 10 },
       { x: 100, y: 400, w: 10, h: 100 },
       { x: 170, y: 480, w: 10, h: 20 },
       { x: 250, y: 400, w: 10, h: 40 },
-      { x: 100, y: 500, w: 160, h: 10 },
       { x: 100, y: 500, w: 160, h: 10 },
 
       { x: 350, y: 20, w: 50, h: 50, victory: true },

@@ -14,12 +14,12 @@
 
   const getRectColor = (rect: GameRect) => {
     if (rect.victory) {
-      if (game.tiles.find((x) => x.checkpoint && !x.touched)) return "#fff";
-      else return "#0ff";
+      if (game.tiles.find((x) => x.checkpoint && !x.touched)) return "#ff0";
+      else return "#0f0";
     }
     if (rect.checkpoint) {
-      if (rect.touched) return "#ffa";
-      else return "#f0f";
+      if (rect.touched) return "#0ff";
+      else return "#069";
     }
     return "#f00";
   };
