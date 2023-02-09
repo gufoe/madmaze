@@ -145,11 +145,12 @@ export const MAPS: { [key: string]: GameMap } = {
     key: "origin2",
     pl: {
       x: 140,
-      y: 470,
+      y: 370,
+      // y: 470,
       r: 20,
       vx: 0,
       vy: 0,
-      acc: 2,
+      acc: 1,
       friction: 0.2,
       movex: 0,
       movey: 0,
@@ -175,7 +176,27 @@ export const MAPS: { [key: string]: GameMap } = {
       { x: 0, y: 240, w: 300, h: 10 },
       { x: 100, y: 300, w: 100, h: 10 },
       { x: 300, y: 150, w: 10, h: 200 },
-      { x: 200, y: 300, w: 10, h: 60 },
+      {
+        x: 200,
+        y: 300,
+        w: 10,
+        h: 60,
+        // victory: true,
+        on_tick(tick, tile) {
+          tile.y = 290 + Math.sin(tick / 10) * 30;
+        },
+      },
+      {
+        x: 200,
+        y: 300,
+        w: 10,
+        h: 10,
+        checkpoint: true,
+        // victory: true,
+        on_tick(tick, tile) {
+          tile.y = 315 - Math.sin(tick / 10) * 50;
+        },
+      },
       { x: 100, y: 400, w: 270, h: 10 },
       { x: 100, y: 400, w: 10, h: 100 },
       { x: 170, y: 480, w: 10, h: 20 },

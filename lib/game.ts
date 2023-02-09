@@ -40,6 +40,7 @@ export interface GameRect extends Rect {
   victory?: boolean;
   checkpoint?: boolean;
   touched?: boolean;
+  on_tick?: (tick: number, rect: GameRect) => any;
 }
 
 export interface GameMap {
@@ -73,6 +74,7 @@ export class Game {
       if (this.level.on_tick) {
         this.tiles = this.level.on_tick(this.tick, this.tiles);
       }
+      this.tiles.forEach((t) => t.on_tick && t.on_tick(this.tick, t));
       if (this.pl.acc) {
         this.pl.vx += this.pl.movex * this.pl.acc;
         this.pl.vy -= this.pl.movey * this.pl.acc;
