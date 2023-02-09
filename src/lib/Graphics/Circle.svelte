@@ -8,8 +8,8 @@
   class="absolute rounded-full"
   style="
     background: {shape.color ?? '#0f0'};
-    left: {shape.x - shape.r}px;
-    top: {shape.y - shape.r}px;
+    left: {(shape.x - shape.r).toFixed(2)}px;
+    top: {(shape.y - shape.r).toFixed(2)}px;
     width: {shape.r * 2}px;
     height: {shape.r * 2}px;
     "

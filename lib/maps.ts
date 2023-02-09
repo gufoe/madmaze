@@ -1,4 +1,4 @@
-import type { GameMap, Player } from "./game";
+import type { GameMap, GameRect, Player } from "./game";
 
 // Inkscape regex:
 // replace: <rect([^>]|\n)*width="([^"]+)"([^>]|\n)*height="([^"]+)"([^>]|\n)*x="([^"]+)"([^>]|\n)*y="([^"]+)"(\s|\n)*/>
@@ -88,12 +88,15 @@ export const MAPS: { [key: string]: GameMap } = {
       status: "idle",
       speed: 1,
     },
+    on_tick: (tick: number, tiles: GameRect[]) => {
+      tiles[1].x = Math.sin(tick / 20) * 100;
+      // tiles[1].w = Math.sin(tick / 10) * 100;
+      tiles[1].victory = Math.round(tick / 100) % 2 == 0;
+      return tiles;
+    },
     tiles: [
       { w: 7, h: 161, x: 2, y: 3 },
       { w: 77, h: 6, x: 9, y: 3 },
-      { w: 6, h: 151, x: 78, y: 18 },
-      { w: 62, h: 6, x: 16, y: 86 },
-      { w: 5, h: 20, x: 19, y: 134 },
       { w: 16, h: 16, x: 73, y: 147, victory: true },
     ],
   },
@@ -138,14 +141,59 @@ export const MAPS: { [key: string]: GameMap } = {
       { x: 350, y: 20, w: 50, h: 50, victory: true },
     ],
   },
+  DEFAULT2: {
+    key: "origin2",
+    pl: {
+      x: 140,
+      y: 470,
+      r: 20,
+      vx: 0,
+      vy: 0,
+      acc: 2,
+      friction: 0.2,
+      movex: 0,
+      movey: 0,
+      status: "idle",
+      speed: 4,
+    },
+    tiles: [
+      { x: 0, y: 0, w: 375, h: 10 },
+      { x: 0, y: 667 - 10, w: 375, h: 10 },
+      { x: 0, y: 0, w: 10, h: 667 },
+      { x: 375 - 10, y: 0, w: 10, h: 667 },
+
+      { x: 80, y: 10, w: 10, h: 18 },
+      { x: 220, y: 10, w: 10, h: 18 },
+      { x: 150, y: 62, w: 10, h: 20 },
+      { x: 300, y: 10, w: 10, h: 10 },
+      { x: 300, y: 70, w: 10, h: 15 },
+      { x: 70, y: 80, w: 300, h: 10 },
+      { x: 0, y: 130, w: 30, h: 10 },
+      { x: 70, y: 180, w: 30, h: 10 },
+      { x: 80, y: 90, w: 10, h: 100 },
+      { x: 146, y: 137, w: 120, h: 30 },
+      { x: 0, y: 240, w: 300, h: 10 },
+      { x: 100, y: 300, w: 100, h: 10 },
+      { x: 300, y: 150, w: 10, h: 200 },
+      { x: 200, y: 300, w: 10, h: 60 },
+      { x: 100, y: 400, w: 270, h: 10 },
+      { x: 100, y: 400, w: 10, h: 100 },
+      { x: 170, y: 480, w: 10, h: 20 },
+      { x: 250, y: 400, w: 10, h: 40 },
+      { x: 100, y: 500, w: 160, h: 10 },
+      { x: 100, y: 500, w: 160, h: 10 },
+
+      { x: 350, y: 20, w: 50, h: 50, victory: true },
+    ],
+  },
 };
 
 function genmap(): GameMap {
-  const mheight = 100;
-  const mwidth = 100;
-  let rectu = 1;
+  const mheight = 1000;
+  const mwidth = 1000;
+  let rectu = 15;
 
-  let unit = 22;
+  let unit = 200;
 
   const min_player_factor = 0.38 * 0.5; // r = d/2
   const player_radius = unit * min_player_factor;
@@ -154,6 +202,9 @@ function genmap(): GameMap {
     x: player_radius * 2,
     y: mheight - player_radius,
     r: player_radius,
+    vx: 0,
+    vy: 0,
+    acc: 3,
     movex: 0,
     movey: 0,
     status: "idle",

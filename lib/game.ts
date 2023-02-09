@@ -23,6 +23,10 @@ export interface Text extends Point, CanDraw {
 export type Player = {
   x: number;
   y: number;
+  vx?: number;
+  vy?: number;
+  acc?: number;
+  friction?: number;
   r: number;
   movex: number;
   movey: number;
@@ -42,9 +46,11 @@ export interface GameMap {
   key: string;
   pl: Player;
   tiles: GameRect[];
+  on_tick?: (tick: number, tiles: GameRect[]) => GameRect[];
 }
 
 export class Game {
+  tick: number;
   pl: Player;
   tiles: GameRect[];
   constructor(public level: GameMap) {
@@ -54,6 +60,7 @@ export class Game {
   initGame() {
     this.pl = Object.assign({}, this.level.pl);
     this.tiles = cloneDeep(this.level.tiles);
+    this.tick = 0;
   }
 
   update(): this {
@@ -62,8 +69,24 @@ export class Game {
       this.pl.start = new Date().getTime();
     }
     if (this.pl.status == "alive") {
-      this.pl.x += this.pl.movex * this.pl.speed;
-      this.pl.y -= this.pl.movey * this.pl.speed;
+      this.tick++;
+      if (this.level.on_tick) {
+        this.tiles = this.level.on_tick(this.tick, this.tiles);
+      }
+      if (this.pl.acc) {
+        this.pl.vx += this.pl.movex * this.pl.acc;
+        this.pl.vy -= this.pl.movey * this.pl.acc;
+
+        this.pl.x += this.pl.vx;
+        this.pl.y += this.pl.vy;
+
+        this.pl.vx *= 1 - (this.pl.friction ?? 0.05);
+        this.pl.vy *= 1 - (this.pl.friction ?? 0.05);
+        console.log(this.pl.x);
+      } else {
+        this.pl.x += this.pl.movex * this.pl.speed;
+        this.pl.y -= this.pl.movey * this.pl.speed;
+      }
       const int = this.getCollisions();
       if (int.find((x) => x.victory)) {
         if (!this.tiles.find((x) => x.checkpoint && !x.touched)) {
