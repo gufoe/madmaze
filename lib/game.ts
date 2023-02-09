@@ -85,7 +85,6 @@ export class Game {
 
         this.pl.vx *= 1 - (this.pl.friction ?? 0.05);
         this.pl.vy *= 1 - (this.pl.friction ?? 0.05);
-        console.log(this.pl.x);
       } else {
         this.pl.x += this.pl.movex * this.pl.speed;
         this.pl.y -= this.pl.movey * this.pl.speed;
@@ -99,7 +98,6 @@ export class Game {
           this.pl.status = "victory";
           this.pl.end = new Date().getTime();
         } else {
-          console.log("tocca tutti i checkpoint prima di continuare");
         }
       } else if (int.find((x) => x.type == "checkpoint" && !x.touched)) {
         let checkpoint = int.find(

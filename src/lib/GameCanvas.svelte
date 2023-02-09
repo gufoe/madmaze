@@ -117,7 +117,6 @@
     if (["d", "ArrowRight"].includes(e.key)) {
       game.pl.movex = e.type == "keyup" ? 0 : 1;
     }
-    console.log(e.type);
   }
   if (!localStorage.device_id) {
     localStorage.device_id = new Date().getTime();
