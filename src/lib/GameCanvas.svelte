@@ -188,8 +188,8 @@
           class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movex = +1)}
           on:touchstart={() => (game.pl.movex = +1)}
-          on:mouseup={() => (game.pl.movex = 0)}
-          on:touchend={() => (game.pl.movex = 0)}
+          on:mouseup={() => game.pl.movex == +1 && (game.pl.movex = 0)}
+          on:touchend={() => game.pl.movex == +1 && (game.pl.movex = 0)}
         >
           →
         </button>
@@ -197,8 +197,8 @@
           class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movex = -1)}
           on:touchstart={() => (game.pl.movex = -1)}
-          on:mouseup={() => (game.pl.movex = 0)}
-          on:touchend={() => (game.pl.movex = 0)}
+          on:mouseup={() => game.pl.movex == -1 && (game.pl.movex = 0)}
+          on:touchend={() => game.pl.movex == -1 && (game.pl.movex = 0)}
         >
           ←
         </button>
@@ -212,8 +212,8 @@
           class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movey = +1)}
           on:touchstart={() => (game.pl.movey = +1)}
-          on:mouseup={() => (game.pl.movey = 0)}
-          on:touchend={() => (game.pl.movey = 0)}
+          on:mouseup={() => game.pl.movey == +1 && (game.pl.movey = 0)}
+          on:touchend={() => game.pl.movey == +1 && (game.pl.movey = 0)}
         >
           ↑
         </button>
@@ -221,8 +221,8 @@
           class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movey = -1)}
           on:touchstart={() => (game.pl.movey = -1)}
-          on:mouseup={() => (game.pl.movey = 0)}
-          on:touchend={() => (game.pl.movey = 0)}
+          on:mouseup={() => game.pl.movey == -1 && (game.pl.movey = 0)}
+          on:touchend={() => game.pl.movey == -1 && (game.pl.movey = 0)}
         >
           ↓
         </button>
