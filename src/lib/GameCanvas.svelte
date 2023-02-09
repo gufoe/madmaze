@@ -13,13 +13,14 @@
   let map_size: { w: number; h: number };
 
   const getRectColor = (rect: GameRect) => {
-    if (rect.victory) {
-      if (game.tiles.find((x) => x.checkpoint && !x.touched)) return "#ff0";
+    if (rect.type == "victory") {
+      if (game.tiles.find((x) => x.type == "checkpoint" && !x.touched))
+        return "#ff0";
       else return "#0f0";
     }
-    if (rect.checkpoint) {
+    if (rect.type == "checkpoint") {
       if (rect.touched) return "#0ff";
-      else return "#069";
+      else return "#136";
     }
     return "#f00";
   };

@@ -37,8 +37,9 @@ export type Player = {
 };
 
 export interface GameRect extends Rect {
-  victory?: boolean;
-  checkpoint?: boolean;
+  type: "victory" | "checkpoint" | "killer";
+  // victory?: boolean;
+  // checkpoint?: boolean;
   touched?: boolean;
   on_tick?: (tick: number, rect: GameRect) => any;
 }
@@ -90,19 +91,21 @@ export class Game {
         this.pl.y -= this.pl.movey * this.pl.speed;
       }
       const int = this.getCollisions();
-      if (int.find((x) => x.victory)) {
-        if (!this.tiles.find((x) => x.checkpoint && !x.touched)) {
+      if (int.find((x) => x.type == "killer")) {
+        this.pl.status = "dead";
+        this.pl.end = new Date().getTime();
+      } else if (int.find((x) => x.type == "victory")) {
+        if (!this.tiles.find((x) => x.type == "checkpoint")) {
           this.pl.status = "victory";
           this.pl.end = new Date().getTime();
         } else {
           console.log("tocca tutti i checkpoint prima di continuare");
         }
-      } else if (int.find((x) => x.checkpoint)) {
-        let checkpoint = int.find((x) => x.checkpoint);
+      } else if (int.find((x) => x.type == "checkpoint" && !x.touched)) {
+        let checkpoint = int.find(
+          (x) => x.type == "checkpoint" && !x.touched
+        );
         checkpoint.touched = true;
-      } else if (int.find((x) => !x.victory)) {
-        this.pl.status = "dead";
-        this.pl.end = new Date().getTime();
       } else {
         let out = false;
         if (this.pl.x - this.pl.r < 0) out = true;
@@ -156,13 +159,15 @@ export function scaleMapToFit(
   squares: GameRect[]
 ) {
   const ratio = getRatio(fit, squares);
-  return squares.map((s) => ({
-    x: s.x * ratio,
-    y: s.y * ratio,
-    w: s.w * ratio,
-    h: s.h * ratio,
-    victory: s.victory,
-  }));
+  return squares.map(
+    (s): GameRect =>
+      Object.assign(cloneDeep(s), {
+        x: s.x * ratio,
+        y: s.y * ratio,
+        w: s.w * ratio,
+        h: s.h * ratio,
+      })
+  );
 }
 export function boundingBox(squares: GameRect[]) {
   return {
