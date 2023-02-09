@@ -70,53 +70,57 @@ export class Game {
       this.pl.status = "alive";
       this.pl.start = new Date().getTime();
     }
-    if (this.pl.status == "alive") {
-      this.tick++;
-      if (this.level.on_tick) {
-        this.tiles = this.level.on_tick(this.tick, this.tiles);
-      }
-      this.tiles.forEach((t) => t.on_tick && t.on_tick(this.tick, t));
-      if (this.pl.acc) {
-        this.pl.vx += this.pl.movex * this.pl.acc;
-        this.pl.vy -= this.pl.movey * this.pl.acc;
 
-        this.pl.x += this.pl.vx;
-        this.pl.y += this.pl.vy;
+    if (this.pl.status != "alive") {
+      return this;
+    }
 
-        this.pl.vx *= 1 - (this.pl.friction ?? 0.05);
-        this.pl.vy *= 1 - (this.pl.friction ?? 0.05);
+    this.tick++;
+
+    if (this.level.on_tick) {
+      this.tiles = this.level.on_tick(this.tick, this.tiles);
+    }
+    this.tiles.forEach((t) => t.on_tick && t.on_tick(this.tick, t));
+    if (this.pl.acc) {
+      this.pl.vx += this.pl.movex * this.pl.acc;
+      this.pl.vy -= this.pl.movey * this.pl.acc;
+
+      this.pl.x += this.pl.vx;
+      this.pl.y += this.pl.vy;
+
+      this.pl.vx *= 1 - (this.pl.friction ?? 0.05);
+      this.pl.vy *= 1 - (this.pl.friction ?? 0.05);
+    } else {
+      this.pl.x += this.pl.movex * this.pl.speed;
+      this.pl.y -= this.pl.movey * this.pl.speed;
+    }
+
+    const int = this.getCollisions();
+    if (int.find((x) => x.type == "killer")) {
+      this.pl.status = "dead";
+      this.pl.end = new Date().getTime();
+    } else if (int.find((x) => x.type == "victory")) {
+      if (!this.tiles.find((x) => x.type == "checkpoint" && !x.touched)) {
+        this.pl.status = "victory";
+        this.pl.end = new Date().getTime();
       } else {
-        this.pl.x += this.pl.movex * this.pl.speed;
-        this.pl.y -= this.pl.movey * this.pl.speed;
       }
-      const int = this.getCollisions();
-      if (int.find((x) => x.type == "killer")) {
+    } else if (int.find((x) => x.type == "checkpoint" && !x.touched)) {
+      let checkpoint = int.find((x) => x.type == "checkpoint" && !x.touched);
+      checkpoint.touched = true;
+    } else {
+      let out = false;
+      if (this.pl.x - this.pl.r < 0) out = true;
+      if (this.pl.y - this.pl.r < 0) out = true;
+      const bb = boundingBox(this.tiles);
+      if (this.pl.x + this.pl.r > bb.w) out = true;
+      if (this.pl.y + this.pl.r > bb.h) out = true;
+      if (out) {
         this.pl.status = "dead";
         this.pl.end = new Date().getTime();
-      } else if (int.find((x) => x.type == "victory")) {
-        if (!this.tiles.find((x) => x.type == "checkpoint")) {
-          this.pl.status = "victory";
-          this.pl.end = new Date().getTime();
-        } else {
-        }
-      } else if (int.find((x) => x.type == "checkpoint" && !x.touched)) {
-        let checkpoint = int.find(
-          (x) => x.type == "checkpoint" && !x.touched
-        );
-        checkpoint.touched = true;
-      } else {
-        let out = false;
-        if (this.pl.x - this.pl.r < 0) out = true;
-        if (this.pl.y - this.pl.r < 0) out = true;
-        const bb = boundingBox(this.tiles);
-        if (this.pl.x + this.pl.r > bb.w) out = true;
-        if (this.pl.y + this.pl.r > bb.h) out = true;
-        if (out) {
-          this.pl.status = "dead";
-          this.pl.end = new Date().getTime();
-        }
       }
     }
+
     return this;
   }
 
