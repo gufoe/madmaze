@@ -197,7 +197,7 @@ export const MAPS: { [key: string]: GameMap } = {
       { type: "killer", x: 250, y: 400, w: 10, h: 40 },
       { type: "killer", x: 100, y: 500, w: 160, h: 10 },
 
-      { type: "killer", x: 350, y: 20, w: 50, h: 50 },
+      { type: "victory", x: 350, y: 20, w: 50, h: 50 },
     ],
   },
   DEFAULT2: {
@@ -284,7 +284,7 @@ export const MAPS: { [key: string]: GameMap } = {
       // { type: 'killer', x: 250, y: 400, w: 10, h: 40 },
       // { type: 'killer', x: 100, y: 500, w: 160, h: 10 },
 
-      { type: "killer", x: 350, y: 20, w: 40, h: 50 },
+      { type: "victory", x: 350, y: 20, w: 40, h: 50 },
     ],
   },
 };

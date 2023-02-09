@@ -183,9 +183,9 @@
   </div>
   <div class="h-18 py-3 flex flex-col items-center">
     {#if ["alive", "idle"].includes(game.pl.status)}
-      <div class="buttons flex flex-row gap-1 items-center">
+      <div class="buttons flex scroll flex-row gap-1 items-center">
         <button
-          class="text-3xl"
+          class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movex = +1)}
           on:touchstart={() => (game.pl.movex = +1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -194,7 +194,7 @@
           →
         </button>
         <button
-          class="text-3xl"
+          class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movex = -1)}
           on:touchstart={() => (game.pl.movex = -1)}
           on:mouseup={() => (game.pl.movex = 0)}
@@ -202,8 +202,14 @@
         >
           ←
         </button>
+        <div
+          class="text-3xl px-0 shrink ml-2"
+          on:mousedown={() => showHallOfFame(game.level.key)}
+        >
+          🏆
+        </div>
         <button
-          class="text-3xl"
+          class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movey = +1)}
           on:touchstart={() => (game.pl.movey = +1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -212,7 +218,7 @@
           ↑
         </button>
         <button
-          class="text-3xl"
+          class="text-3xl w-18 px-0 shrink"
           on:mousedown={() => (game.pl.movey = -1)}
           on:touchstart={() => (game.pl.movey = -1)}
           on:mouseup={() => (game.pl.movey = 0)}
@@ -220,12 +226,6 @@
         >
           ↓
         </button>
-        <div
-          class="text-3xl ml-2"
-          on:mousedown={() => showHallOfFame(game.level.key)}
-        >
-          🏆
-        </div>
       </div>
     {/if}
   </div>
