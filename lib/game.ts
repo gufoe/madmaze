@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 export interface CanDraw {
   color?: string;
 }
@@ -43,12 +45,14 @@ export interface GameMap {
 
 export class Game {
   pl: Player;
-  constructor(public map: GameMap) {
+  tiles: GameRect[];
+  constructor(public level: GameMap) {
     this.initGame();
   }
 
   initGame() {
-    this.pl = Object.assign({}, this.map.pl);
+    this.pl = Object.assign({}, this.level.pl);
+    this.tiles = cloneDeep(this.level.tiles);
   }
 
   update(): this {
@@ -61,7 +65,7 @@ export class Game {
       this.pl.y -= this.pl.movey * this.pl.speed;
       const int = this.getCollisions();
       if (int.find((x) => x.victory)) {
-        if (!this.map.tiles.find((x) => x.checkpoint && !x.touched)) {
+        if (!this.tiles.find((x) => x.checkpoint && !x.touched)) {
           this.pl.status = "victory";
           this.pl.end = new Date().getTime();
         } else {
@@ -77,7 +81,7 @@ export class Game {
         let out = false;
         if (this.pl.x - this.pl.r < 0) out = true;
         if (this.pl.y - this.pl.r < 0) out = true;
-        const bb = boundingBox(this.map.tiles);
+        const bb = boundingBox(this.tiles);
         if (this.pl.x + this.pl.r > bb.w) out = true;
         if (this.pl.y + this.pl.r > bb.h) out = true;
         if (out) {
@@ -90,7 +94,7 @@ export class Game {
   }
 
   getCollisions() {
-    return this.map.tiles.filter((s) => intersects(this.pl, s));
+    return this.tiles.filter((s) => intersects(this.pl, s));
   }
 }
 

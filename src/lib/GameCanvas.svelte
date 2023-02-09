@@ -8,13 +8,13 @@
   import Text from "./Graphics/Text.svelte";
   let canvas: Element;
   let game: Game = new Game(MAPS[location.hash?.substring(1) || "DEFAULT"]);
-  document.title = game.map.key;
+  document.title = game.level.key;
   let scale = 1;
   let map_size: { w: number; h: number };
 
   const getRectColor = (rect: GameRect) => {
     if (rect.victory) {
-      if (game.map.tiles.find((x) => x.checkpoint && !x.touched)) return "#fff";
+      if (game.tiles.find((x) => x.checkpoint && !x.touched)) return "#fff";
       else return "#0ff";
     }
     if (rect.checkpoint) {
@@ -34,9 +34,9 @@
         w: canvas.clientWidth,
         h: canvas.clientHeight,
       },
-      game.map.tiles
+      game.tiles
     );
-    map_size = boundingBox(game.map.tiles);
+    map_size = boundingBox(game.tiles);
   });
   let int: NodeJS.Timeout;
   setInterval(() => {
@@ -72,7 +72,7 @@
             .createThing()
             .set("name", localStorage.username)
             .set("device_id", localStorage.device_id)
-            .set("level", game.map.key)
+            .set("level", game.level.key)
             .set("time", ms)
             .save();
         }
@@ -137,7 +137,7 @@
       style="width:{map_size?.w * scale}px; height:{map_size?.h * scale}px"
     >
       <div style="scale:{scale}" class="absolute bg-green text-md">
-        {#each game.map.tiles as rect}
+        {#each game.tiles as rect}
           <Rect
             shape={Object.assign(
               {
@@ -150,8 +150,8 @@
         {#if game.pl.start}
           <Text
             shape={{
-              x: game.map.pl.x,
-              y: game.map.pl.y,
+              x: game.level.pl.x,
+              y: game.level.pl.y,
               align: "center",
               color: "white",
               w: 50,
@@ -220,7 +220,7 @@
         </button>
         <div
           class="text-3xl ml-2"
-          on:mousedown={() => showHallOfFame(game.map.key)}
+          on:mousedown={() => showHallOfFame(game.level.key)}
         >
           🏆
         </div>
