@@ -12,6 +12,7 @@
     left: {shape.x - shape.w / 2}px;
     top: {shape.y}px;
     width: {shape.w}px;
+    font-size: {shape.size}px;
     "
 >
   {shape.text}

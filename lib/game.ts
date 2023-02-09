@@ -18,6 +18,7 @@ export interface Text extends Point, CanDraw {
   w: number;
   align: string;
   text: string;
+  size: number;
 }
 export type Player = {
   x: number;

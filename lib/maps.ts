@@ -61,12 +61,12 @@ export const MAPS: { [key: string]: GameMap } = {
     key: "level/4",
     pl: {
       x: 30,
-      y: 30,
+      y: 75,
       r: 12,
       movex: 0,
       movey: 0,
       status: "idle",
-      speed: 1,
+      speed: 3,
     },
     tiles: [
       { x: 0, y: 0, w: 130, h: 10 },
@@ -75,6 +75,26 @@ export const MAPS: { [key: string]: GameMap } = {
       { x: 30, y: 100, w: 10, h: 10 },
       { x: 80, y: 50, w: 10, h: 50 },
       { x: 120, y: 55, w: 10, h: 30, victory: true },
+    ],
+  },
+  "level/5": {
+    key: "level/5",
+    pl: {
+      x: 14,
+      y: 79,
+      r: 5,
+      movex: 0,
+      movey: 0,
+      status: "idle",
+      speed: 1,
+    },
+    tiles: [
+      { w: 7, h: 161, x: 2, y: 3 },
+      { w: 77, h: 6, x: 9, y: 3 },
+      { w: 6, h: 151, x: 78, y: 18 },
+      { w: 62, h: 6, x: 16, y: 86 },
+      { w: 5, h: 20, x: 19, y: 134 },
+      { w: 16, h: 16, x: 73, y: 147, victory: true },
     ],
   },
   DEFAULT: {

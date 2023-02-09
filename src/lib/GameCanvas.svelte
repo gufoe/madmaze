@@ -155,6 +155,7 @@
               align: "center",
               color: "white",
               w: 50,
+              size: (1 / scale) * 20,
               text:
                 (
                   ((game.pl.end ?? new Date().getTime()) - game.pl.start) /
