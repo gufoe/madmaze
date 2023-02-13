@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Text } from "../../../lib/game";
+	import type { Text } from '../game/game';
 
-  export let shape: Text;
+	export let shape: Text;
 </script>
 
 <div
-  class="absolute rounded-full"
-  style="
+	class="absolute rounded-full"
+	style="
     color: {shape.color ?? '#fff'};
     text-align: {shape.align};
     left: {shape.x - shape.w / 2}px;
@@ -15,5 +15,5 @@
     font-size: {shape.size}px;
     "
 >
-  {shape.text}
+	{shape.text}
 </div>
