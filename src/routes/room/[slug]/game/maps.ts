@@ -81,7 +81,7 @@ export const MAPS: { [key: string]: GameMap } = {
 	},
 	'level-3': {
 		challenge: true,
-		key: 'level-3',
+		key: 'level/3',
 		pl: {
 			x: 180,
 			y: 30,
