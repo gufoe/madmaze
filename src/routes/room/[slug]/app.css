@@ -36,4 +36,5 @@ button {
 	font-family: inter;
 	user-select: none !important;
 	outline: none;
+	touch-action: manipulation;
 }

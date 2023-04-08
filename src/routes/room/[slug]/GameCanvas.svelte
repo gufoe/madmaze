@@ -2,10 +2,24 @@
 	import { goto } from '$app/navigation';
 	import { Api, Schema } from 'onpage-js';
 	import { onDestroy, onMount } from 'svelte';
-	import { boundingBox, Game, getRatio, type GameRect } from './game/game';
+	import { boundingBox, Game, getRatio, type GameRect, fraseScarsa } from './game/game';
 	import Circle from './Graphics/Circle.svelte';
 	import Rect from './Graphics/Rect.svelte';
 	import Text from './Graphics/Text.svelte';
+
+	const eventParams = { passive: false };
+	document.body.addEventListener('touchcancel', ignore, eventParams);
+	document.body.addEventListener('touchend', ignore, eventParams);
+
+	function ignore(e: Event) {
+		e.preventDefault();
+	}
+
+	onDestroy(() => {
+		document.body.removeEventListener('touchcancel', ignore);
+		document.body.removeEventListener('touchend', ignore);
+	});
+
 	let canvas: Element | undefined;
 	export let game: Game;
 
@@ -25,11 +39,6 @@
 			else return '#136';
 		}
 		return '#f00';
-	};
-	const frasi_scarse: { [key: string]: string } = {
-		m: 'Che scarso!',
-		f: 'Che scarsa!',
-		x: 'Che scarsƏ!',
 	};
 	function setupCanvas() {
 		scale = !canvas
@@ -61,7 +70,7 @@
 						'Aspetta un attimo, tu cosa sei?\n(scrivi m per maschio, f per femmina, x per altro)',
 					);
 				}
-				alert(frasi_scarse[localStorage.maschio_o_femmina]);
+				alert(fraseScarsa(localStorage.maschio_o_femmina));
 				game.initGame();
 				// show_restart = true;
 			}, 100);
@@ -73,9 +82,7 @@
 				if (game.level.challenge) {
 					localStorage.username =
 						prompt(
-							'Hai vinto!\n' +
-								(ms / 1000).toFixed(2) +
-								' secondi\nCome vuoi essere ricordato?',
+							'Hai vinto!\n' + (ms / 1000).toFixed(2) + ' secondi\nCome vuoi essere ricordato?',
 							localStorage.username ?? '',
 						) ?? '';
 					if (localStorage.username) {
@@ -181,10 +188,7 @@
 							color: 'white',
 							w: 50,
 							text:
-								(
-									((game.pl.end ?? new Date().getTime()) - game.pl.start) /
-									1000
-								).toFixed(2) + 's',
+								(((game.pl.end ?? new Date().getTime()) - game.pl.start) / 1000).toFixed(2) + 's',
 						}}
 					/>
 				{/if}

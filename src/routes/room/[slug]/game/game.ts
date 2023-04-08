@@ -123,9 +123,7 @@ export class Game {
 			this.pl.status = 'dead';
 			this.pl.end = new Date().getTime();
 		} else if (int.find((x) => x.type == 'checkpoint' && !x.touched)) {
-			const checkpoint = int.find(
-				(x) => x.type == 'checkpoint' && !x.touched,
-			) as CheckpointTile;
+			const checkpoint = int.find((x) => x.type == 'checkpoint' && !x.touched) as CheckpointTile;
 			checkpoint.touched = true;
 		} else {
 			let out = false;
@@ -192,4 +190,22 @@ export function boundingBox(squares: GameRect[]) {
 		w: squares.reduce((max, s) => Math.max(max, s.x + s.w), 0),
 		h: squares.reduce((max, s) => Math.max(max, s.y + s.h), 0),
 	};
+}
+
+const FRASI_SCARSE = [
+	{ m: 'Che scarso!', f: 'Che scarsa!', x: 'Che scarsƏ!' },
+	{ m: '...', f: '...', x: '...' },
+	{ m: 'Mamma mia...', f: 'Mamma mia...', x: 'Mamma mia...' },
+	{ m: 'Troppo veloce fra', f: 'Non confondere la sinistra con la destra', x: 'ƏƏƏƏƏƏƏƏ' },
+	{ m: 'Troppo lento fra', f: 'Hai le unghie troppo lunghe', x: 'TagliatƏ lƏ unghiƏ' },
+	{
+		m: 'Ma fatti una pasta',
+		f: 'Le suore sono più brave di te a questo gioco',
+		x: 'TagliatƏ lƏ unghiƏ',
+	},
+	{ m: 'Vatti a vedere una partita che è meglio', f: 'Donna', x: 'Sei un Neanderthal' },
+];
+export function fraseScarsa(genere: 'm' | 'f' | 'x') {
+	const i = Math.floor(Math.random() * FRASI_SCARSE.length);
+	return FRASI_SCARSE[i][genere];
 }
