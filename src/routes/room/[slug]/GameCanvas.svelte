@@ -6,6 +6,7 @@
 	import Circle from './Graphics/Circle.svelte';
 	import Rect from './Graphics/Rect.svelte';
 	import Text from './Graphics/Text.svelte';
+	import { groupBy, uniqBy } from 'lodash';
 
 	const eventParams = { passive: false };
 	document.body.addEventListener('touchcancel', ignore, eventParams);
@@ -119,11 +120,12 @@
 	};
 
 	async function showHallOfFame(level: string) {
-		const ppl = await (await schema())
+		let ppl = await (await schema())
 			.query('hall_of_fame')
 			.where('level', level)
 			.orderBy('time')
 			.get();
+		ppl = uniqBy(ppl, (p) => p.val('device_id'));
 		const message = ppl.map(
 			(p) => `${((p.val<number>('time') ?? 0) / 1000).toFixed(2)}s - ${p.val('name')}`,
 		);
